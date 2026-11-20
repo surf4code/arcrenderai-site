@@ -25,6 +25,7 @@
       --ok-soft: #e6f4ec;
       --code-bg: #161615;
       --code-ink: #e8e6df;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -49,13 +50,21 @@
     a { color: inherit; text-decoration: none; }
     button { font-family: inherit; cursor: pointer; }
 
-    .wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+    /* Scroll Reveal Motion */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out);
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
 
     /* Top Bar */
     .topbar {
       position: sticky; top: 0; z-index: 40;
-      background: rgba(247, 246, 242, 0.92);
-      backdrop-filter: blur(8px);
+      background: rgba(247, 246, 242, 0.9);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
     }
     .topbar-inner {
@@ -64,12 +73,12 @@
     }
     .brand {
       display: flex; align-items: center; gap: 10px;
-      font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.08rem;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.06rem;
     }
     .brand-mark {
       width: 26px; height: 26px; background: var(--ink); color: #fff;
       display: grid; place-items: center; border-radius: 5px;
-      font-size: 0.78rem; font-weight: 700; letter-spacing: 0;
+      font-size: 0.76rem; font-weight: 700; letter-spacing: 0;
     }
     .nav { display: flex; align-items: center; gap: 26px; }
     .nav a { font-size: 0.88rem; font-weight: 500; color: var(--muted); transition: color 0.15s; }
@@ -79,8 +88,10 @@
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 7px;
       padding: 9px 16px; border-radius: 7px; font-size: 0.87rem; font-weight: 600;
-      border: 1px solid transparent; transition: all 0.15s ease;
+      border: 1px solid transparent;
+      transition: transform 0.12s var(--ease-out), background 0.15s, border-color 0.15s;
     }
+    .btn:active { transform: scale(0.98); }
     .btn-primary { background: var(--ink); color: #fff; }
     .btn-primary:hover { background: #2c2c29; }
     .btn-accent { background: var(--accent); color: #fff; }
@@ -90,35 +101,29 @@
     .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
 
     /* Hero */
-    .hero { padding: 64px 0 40px; }
+    .hero { padding: 56px 0 42px; }
     .hero-top {
       display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px;
-      align-items: end; margin-bottom: 42px;
+      align-items: end; margin-bottom: 36px;
     }
     .release-pill {
       display: inline-flex; align-items: center; gap: 8px;
       font-size: 0.78rem; font-weight: 500; color: var(--muted);
       background: var(--surface); border: 1px solid var(--border);
-      padding: 5px 11px; border-radius: 6px; margin-bottom: 18px;
+      padding: 5px 11px; border-radius: 6px; margin-bottom: 16px;
     }
-    .release-pill span.ver {
-      color: var(--accent); font-weight: 600;
-      font-family: 'JetBrains Mono', monospace;
-    }
+    .release-pill .ver { color: var(--accent); font-weight: 600; }
     .hero h1 {
-      font-size: clamp(2.3rem, 4.4vw, 3.65rem);
-      line-height: 1.06; font-weight: 700; color: var(--ink);
+      font-size: clamp(2.25rem, 4.3vw, 3.6rem);
+      line-height: 1.05; font-weight: 700; color: var(--ink);
     }
-    .hero-right p {
-      font-size: 1.02rem; color: var(--muted); margin-bottom: 20px;
-    }
-    .access-form {
-      display: flex; gap: 8px;
-    }
+    .hero-right p { font-size: 1rem; color: var(--muted); margin-bottom: 18px; }
+    .access-form { display: flex; gap: 8px; }
     .access-form input {
       flex: 1; padding: 10px 13px; border-radius: 7px;
       border: 1px solid var(--border-strong); background: var(--surface);
       font-size: 0.9rem; color: var(--ink); outline: none;
+      transition: border-color 0.15s;
     }
     .access-form input:focus { border-color: var(--ink); }
     .form-note { font-size: 0.78rem; color: var(--subtle); margin-top: 8px; }
@@ -131,7 +136,7 @@
     .workbench {
       background: var(--surface); border: 1px solid var(--border-strong);
       border-radius: 12px; overflow: hidden;
-      box-shadow: 0 18px 45px -24px rgba(20, 20, 19, 0.2);
+      box-shadow: 0 24px 55px -28px rgba(20, 20, 19, 0.22);
     }
     .wb-bar {
       display: flex; align-items: center; justify-content: space-between;
@@ -139,7 +144,10 @@
       border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 10px;
     }
     .wb-title { display: flex; align-items: center; gap: 10px; font-size: 0.8rem; color: var(--muted); }
-    .wb-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
+    .wb-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--ok);
+      box-shadow: 0 0 0 3px rgba(21, 115, 71, 0.18);
+    }
     .wb-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .seg-group {
       display: inline-flex; background: var(--bg); border: 1px solid var(--border);
@@ -148,61 +156,78 @@
     .seg-btn {
       border: none; background: transparent; padding: 4px 10px; border-radius: 4px;
       font-size: 0.76rem; font-weight: 600; color: var(--muted);
+      transition: background 0.15s, color 0.15s;
     }
     .seg-btn.active { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
 
     .wb-grid {
-      display: grid; grid-template-columns: 230px 1fr 270px;
-      min-height: 390px;
+      display: grid; grid-template-columns: 235px 1fr 270px;
+      min-height: 410px;
     }
     .wb-left {
       border-right: 1px solid var(--border); padding: 14px; background: #fbfaf7;
       display: flex; flex-direction: column; gap: 6px;
     }
     .wb-label {
-      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em;
+      font-size: 0.69rem; text-transform: uppercase; letter-spacing: 0.08em;
       color: var(--subtle); font-weight: 600; margin-bottom: 6px;
     }
     .scene-item {
       text-align: left; width: 100%; background: transparent; border: 1px solid transparent;
-      padding: 9px 10px; border-radius: 7px; transition: all 0.12s;
+      padding: 9px 10px; border-radius: 7px; transition: all 0.14s var(--ease-out);
+      position: relative;
     }
     .scene-item:hover { background: var(--surface-alt); }
     .scene-item.active {
       background: var(--surface); border-color: var(--border-strong);
-      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.04);
     }
-    .scene-item .s-name { display: block; font-size: 0.82rem; font-weight: 600; color: var(--ink); }
-    .scene-item .s-meta { display: block; font-size: 0.73rem; color: var(--subtle); margin-top: 2px; }
+    .scene-item.active::before {
+      content: ""; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px;
+      background: var(--accent); border-radius: 0 3px 3px 0;
+    }
+    .scene-item .s-name { display: block; font-size: 0.81rem; font-weight: 600; color: var(--ink); }
+    .scene-item .s-meta { display: block; font-size: 0.72rem; color: var(--subtle); margin-top: 2px; }
 
     .wb-center {
-      background: #1c1c1a; padding: 18px;
+      background: #171715; padding: 18px;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       position: relative;
     }
     .canvas-shell {
-      width: 100%; max-width: 560px; aspect-ratio: 16 / 9;
-      background: #f5efe2; border-radius: 6px; overflow: hidden;
-      border: 1px solid #353531; position: relative; transition: max-width 0.2s, aspect-ratio 0.2s;
+      width: 100%; max-width: 600px; aspect-ratio: 16 / 9;
+      background: #111; border-radius: 7px; overflow: hidden;
+      border: 1px solid #30302c; position: relative;
+      transition: max-width 0.3s var(--ease-out), aspect-ratio 0.3s var(--ease-out);
+      cursor: crosshair;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.45);
     }
-    .canvas-shell.vertical { max-width: 220px; aspect-ratio: 9 / 16; }
+    .canvas-shell.vertical { max-width: 230px; aspect-ratio: 9 / 16; }
     canvas#stageCanvas { width: 100%; height: 100%; display: block; }
     .hud-overlay {
       position: absolute; top: 10px; left: 10px; right: 10px;
       display: flex; justify-content: space-between; pointer-events: none;
-      font-size: 0.68rem; color: #141413;
+      font-size: 0.67rem;
     }
     .hud-chip {
-      background: rgba(255,255,255,0.88); border: 1px solid rgba(20,20,19,0.15);
-      padding: 3px 7px; border-radius: 4px; font-weight: 600;
+      background: rgba(20, 20, 19, 0.78); color: #f5f3ec;
+      border: 1px solid rgba(255,255,255,0.14); backdrop-filter: blur(4px);
+      padding: 3px 8px; border-radius: 4px; font-weight: 500;
+    }
+    .orbit-hint {
+      position: absolute; bottom: 52px; right: 10px; pointer-events: none;
+      font-size: 0.64rem; color: rgba(255,255,255,0.68);
+      background: rgba(20,20,19,0.55); padding: 2px 7px; border-radius: 4px;
     }
     .caption-bar {
-      position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
-      background: #141413; color: #facc15; padding: 4px 10px; border-radius: 4px;
-      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.01em;
+      position: absolute; bottom: 13px; left: 50%; transform: translateX(-50%);
+      background: rgba(16, 16, 15, 0.92); color: #ffffff;
+      padding: 5px 12px; border-radius: 5px;
+      font-size: 0.79rem; font-weight: 700; letter-spacing: 0.01em;
       white-space: nowrap; max-width: 92%; overflow: hidden; text-overflow: ellipsis;
       border: 1px solid rgba(255,255,255,0.12);
     }
+    .caption-bar .hi { color: #facc15; }
 
     .wb-right {
       border-left: 1px solid var(--border); padding: 14px; background: #fbfaf7;
@@ -210,7 +235,7 @@
     }
     .prop-row {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 0.8rem;
+      padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 0.79rem;
     }
     .prop-row span:first-child { color: var(--muted); }
     .prop-row span:last-child { font-weight: 600; color: var(--ink); }
@@ -218,49 +243,79 @@
       display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-top: 8px;
     }
     .worker-cell {
-      height: 12px; border-radius: 2px; background: var(--border); transition: background 0.15s;
+      height: 14px; border-radius: 3px; background: var(--border);
+      transition: background 0.18s, transform 0.18s;
     }
-    .worker-cell.busy { background: var(--accent); }
-    .worker-cell.done { background: var(--ok); }
+    .worker-cell.busy { background: var(--accent); transform: scaleY(0.85); }
+    .worker-cell.done { background: var(--ok); transform: scaleY(1); }
 
+    /* Multi-Track NLE Timeline */
     .wb-timeline {
       border-top: 1px solid var(--border); background: var(--surface);
-      padding: 12px 16px; display: flex; align-items: center; gap: 14px;
+      padding: 12px 16px; display: flex; flex-direction: column; gap: 8px;
     }
-    .timeline-track {
-      flex: 1; height: 28px; background: var(--surface-alt); border: 1px solid var(--border);
-      border-radius: 5px; position: relative; overflow: hidden; cursor: pointer;
-      display: flex; align-items: center; padding: 0 6px; gap: 3px;
+    .tl-head {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.74rem; color: var(--muted);
     }
-    .wave-bar { flex: 1; background: #b8b4aa; border-radius: 2px; }
+    .tl-lanes {
+      position: relative; background: var(--surface-alt); border: 1px solid var(--border);
+      border-radius: 6px; padding: 7px 10px; cursor: pointer;
+      display: flex; flex-direction: column; gap: 6px; overflow: hidden;
+    }
+    .tl-lane {
+      display: flex; align-items: center; gap: 10px; height: 18px; position: relative;
+    }
+    .tl-tag {
+      width: 58px; font-size: 0.66rem; font-weight: 600; color: var(--subtle); flex-shrink: 0;
+    }
+    .tl-strip {
+      flex: 1; height: 100%; background: rgba(20,20,19,0.04); border-radius: 3px;
+      position: relative; display: flex; align-items: center; padding: 0 4px; gap: 2px;
+    }
+    .kf-diamond {
+      position: absolute; top: 50%; width: 7px; height: 7px;
+      background: var(--subtle); transform: translate(-50%, -50%) rotate(45deg);
+      transition: background 0.15s, transform 0.15s;
+    }
+    .kf-diamond.hit { background: var(--accent); transform: translate(-50%, -50%) rotate(45deg) scale(1.3); }
+    .wave-bar { flex: 1; background: #9c988e; border-radius: 1.5px; transition: background 0.08s; }
+    .wave-bar.hot { background: var(--accent); }
     .playhead {
-      position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent); left: 0%;
+      position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent);
+      left: 68px; pointer-events: none; z-index: 4;
+    }
+    .playhead::before {
+      content: ""; position: absolute; top: 0; left: -4px;
+      border-left: 5px solid transparent; border-right: 5px solid transparent;
+      border-top: 6px solid var(--accent);
     }
 
     /* Sections */
     section { padding: 76px 0; border-top: 1px solid var(--border); }
     .sec-head {
       display: flex; justify-content: space-between; align-items: flex-end;
-      gap: 24px; margin-bottom: 40px; flex-wrap: wrap;
+      gap: 24px; margin-bottom: 38px; flex-wrap: wrap;
     }
     .sec-kicker {
-      font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.09em;
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.09em;
       color: var(--accent); font-weight: 600; margin-bottom: 8px; display: block;
     }
     .sec-head h2 { font-size: clamp(1.7rem, 3vw, 2.35rem); line-height: 1.15; max-width: 560px; }
     .sec-head p { color: var(--muted); max-width: 440px; font-size: 0.95rem; }
 
     /* Pipeline Grid */
-    .pipe-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
-    }
+    .pipe-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
     .pipe-card {
       background: var(--surface); border: 1px solid var(--border);
       border-radius: 10px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between;
+      transition: transform 0.25s var(--ease-out), border-color 0.2s, box-shadow 0.25s;
     }
-    .pipe-num {
-      font-size: 0.75rem; font-weight: 600; color: var(--subtle); margin-bottom: 16px;
+    .pipe-card:hover {
+      transform: translateY(-3px); border-color: var(--border-strong);
+      box-shadow: 0 12px 24px -18px rgba(20,20,19,0.22);
     }
+    .pipe-num { font-size: 0.74rem; font-weight: 600; color: var(--subtle); margin-bottom: 14px; }
     .pipe-card h3 { font-size: 1.05rem; margin-bottom: 8px; }
     .pipe-card p { font-size: 0.87rem; color: var(--muted); }
     .pipe-tag {
@@ -269,16 +324,14 @@
     }
 
     /* Benchmarks + Calculator */
-    .bench-grid {
-      display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 24px; align-items: start;
-    }
+    .bench-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 24px; align-items: start; }
     .table-card {
       background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
     }
     table { width: 100%; border-collapse: collapse; font-size: 0.87rem; }
     th, td { text-align: left; padding: 13px 16px; border-bottom: 1px solid var(--border); }
     th {
-      background: var(--surface-alt); font-size: 0.76rem; text-transform: uppercase;
+      background: var(--surface-alt); font-size: 0.75rem; text-transform: uppercase;
       letter-spacing: 0.05em; color: var(--muted); font-weight: 600;
     }
     tr:last-child td { border-bottom: none; }
@@ -298,1173 +351,4 @@
       margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border);
     }
     .stat-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
-    .stat-box .k { display: block; font-size: 0.74rem; color: var(--muted); }
-    .stat-box .v { display: block; font-size: 1.25rem; font-weight: 700; margin-top: 2px; }
-
-    /* Code & CLI Section */
-    .dev-box {
-      background: var(--code-bg); color: var(--code-ink); border-radius: 12px;
-      overflow: hidden; border: 1px solid #2b2b28;
-    }
-    .dev-tabs {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 16px; border-bottom: 1px solid #2b2b28; background: #1e1e1c; flex-wrap: wrap; gap: 8px;
-    }
-    .dev-tab-list { display: flex; gap: 6px; }
-    .dev-tab {
-      background: transparent; border: 1px solid transparent; color: #9c9a92;
-      padding: 5px 11px; border-radius: 5px; font-size: 0.78rem; font-weight: 500;
-    }
-    .dev-tab.active { background: #2c2c29; color: #fff; border-color: #3f3f3b; }
-    .dev-pre {
-      padding: 22px; overflow-x: auto; font-size: 0.83rem; line-height: 1.65;
-    }
-
-    /* Use Cases */
-    .uc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-    .uc-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; padding: 24px;
-    }
-    .uc-card h3 { font-size: 1.08rem; margin-bottom: 8px; }
-    .uc-card p { font-size: 0.9rem; color: var(--muted); margin-bottom: 14px; }
-    .uc-specs { display: flex; flex-wrap: wrap; gap: 8px; }
-    .uc-pill {
-      font-size: 0.75rem; background: var(--surface-alt); color: var(--ink);
-      padding: 4px 9px; border-radius: 5px; border: 1px solid var(--border);
-    }
-
-    /* Changelog */
-    .log-list { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); overflow: hidden; }
-    .log-item {
-      display: grid; grid-template-columns: 170px 1fr; gap: 20px;
-      padding: 20px 24px; border-bottom: 1px solid var(--border);
-    }
-    .log-item:last-child { border-bottom: none; }
-    .log-date { font-size: 0.8rem; color: var(--muted); }
-    .log-ver {
-      display: inline-block; margin-top: 4px; font-size: 0.74rem; font-weight: 600;
-      background: var(--accent-soft); color: var(--accent); padding: 2px 7px; border-radius: 4px;
-    }
-    .log-body h4 { font-size: 0.98rem; margin-bottom: 5px; }
-    .log-body p { font-size: 0.88rem; color: var(--muted); }
-
-    /* Pricing */
-    .billing-toggle { display: inline-flex; align-items: center; gap: 10px; font-size: 0.85rem; }
-    .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .p-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
-      padding: 26px; display: flex; flex-direction: column; justify-content: space-between;
-    }
-    .p-card.pop { border-color: var(--ink); border-width: 1.5px; }
-    .p-name { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .p-badge {
-      font-size: 0.72rem; font-weight: 600; background: var(--ink); color: #fff;
-      padding: 2px 8px; border-radius: 4px;
-    }
-    .p-amt { font-size: 2.15rem; font-weight: 700; margin: 10px 0 4px; }
-    .p-amt span { font-size: 0.88rem; color: var(--muted); font-weight: 400; }
-    .p-desc { font-size: 0.86rem; color: var(--muted); margin-bottom: 18px; }
-    .p-list { list-style: none; border-top: 1px solid var(--border); padding-top: 16px; margin-bottom: 22px; }
-    .p-list li { font-size: 0.85rem; color: var(--ink); margin-bottom: 8px; padding-left: 16px; position: relative; }
-    .p-list li::before { content: "—"; position: absolute; left: 0; color: var(--accent); }
-
-    /* FAQ */
-    .faq-list { max-width: 820px; }
-    .faq-item { border-bottom: 1px solid var(--border); }
-    .faq-q {
-      width: 100%; background: transparent; border: none; text-align: left;
-      padding: 18px 0; display: flex; justify-content: space-between; align-items: center;
-      font-size: 0.98rem; font-weight: 600; color: var(--ink);
-    }
-    .faq-a {
-      display: none; padding-bottom: 18px; font-size: 0.9rem; color: var(--muted); max-width: 720px;
-    }
-    .faq-item.open .faq-a { display: block; }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--border); padding: 44px 0; background: var(--surface);
-    }
-    .foot-grid {
-      display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 28px;
-    }
-    .foot-col h5 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--subtle); margin-bottom: 12px; }
-    .foot-col a { display: block; font-size: 0.86rem; color: var(--muted); margin-bottom: 8px; }
-    .foot-col a:hover { color: var(--ink); }
-    .foot-bottom {
-      margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--border);
-      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
-      font-size: 0.8rem; color: var(--subtle);
-    }
-
-    /* Modal */
-    .modal-bg {
-      display: none; position: fixed; inset: 0; z-index: 60;
-      background: rgba(20, 20, 19, 0.55); place-items: center; padding: 20px;
-    }
-    .modal-box {
-      background: var(--surface); border: 1px solid var(--border-strong);
-      border-radius: 10px; max-width: 580px; width: 100%; padding: 26px;
-      max-height: 85vh; overflow-y: auto;
-    }
-    .modal-box h3 { font-size: 1.2rem; margin-bottom: 10px; }
-    .modal-box p { font-size: 0.9rem; color: var(--muted); margin-bottom: 12px; }
-
-    @media (max-width: 960px) {
-      .hero-top, .bench-grid, .foot-grid { grid-template-columns: 1fr; }
-      .wb-grid { grid-template-columns: 1fr; }
-      .wb-left, .wb-right { border: none; border-bottom: 1px solid var(--border); }
-      .pipe-grid { grid-template-columns: repeat(2, 1fr); }
-      .price-grid { grid-template-columns: 1fr; }
-      .nav { display: none; }
-    }
-    @media (max-width: 600px) {
-      .pipe-grid, .uc-grid, .log-item { grid-template-columns: 1fr; }
-      .access-form { flex-direction: column; }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Navigation -->
-  <header class="topbar">
-    <div class="wrap topbar-inner">
-      <a href="#" class="brand">
-        <span class="brand-mark">AR</span>
-        <span>ArcRender AI</span>
-      </a>
-      <nav class="nav">
-        <a href="#studio">Studio</a>
-        <a href="#pipeline">Pipeline</a>
-        <a href="#benchmarks">Benchmarks</a>
-        <a href="#cli">CLI &amp; API</a>
-        <a href="#changelog">Changelog</a>
-        <a href="#pricing">Pricing</a>
-      </nav>
-      <div class="nav-actions">
-        <a href="https://github.com/surf4code" target="_blank" rel="noopener" class="btn btn-outline btn-sm">GitHub</a>
-        <a href="#early-access" class="btn btn-primary btn-sm">Request Access</a>
-      </div>
-    </div>
-  </header>
-
-  <!-- Hero & Interactive Workbench -->
-  <main>
-    <div class="wrap hero" id="early-access">
-      <div class="hero-top">
-        <div>
-          <div class="release-pill">
-            <span class="ver">v0.8.4</span>
-            <span>Deterministic 2.5D Render Engine • Early Access</span>
-          </div>
-          <h1>Compile scripts and audio into 2.5D animated videos.</h1>
-        </div>
-        <div class="hero-right">
-          <p>ArcRender turns narration tracks into React Three Fiber 3D sets, bold-inked 2D character rigs, and word-locked captions—rendered in parallel across Linux cloud workers.</p>
-          <form class="access-form" id="waitlistForm">
-            <input type="email" id="waitlistEmail" placeholder="name@studio.com" required />
-            <button type="submit" class="btn btn-accent">Request Beta Key</button>
-          </form>
-          <div class="form-note">Direct onboarding for independent creators and video teams. Inquiries: <a href="mailto:founder@arcrenderai.tech" style="text-decoration:underline;">founder@arcrenderai.tech</a></div>
-          <div class="form-success" id="waitlistMsg">Added to onboarding queue. We send sandbox credentials from founder@arcrenderai.tech within 48 hours.</div>
-        </div>
-      </div>
-
-      <!-- Interactive Studio Viewport -->
-      <div class="workbench" id="studio">
-        <div class="wb-bar">
-          <div class="wb-title">
-            <span class="wb-dot"></span>
-            <span class="mono">episode_04_victorian_market.arcproj</span>
-          </div>
-          <div class="wb-controls">
-            <div class="seg-group">
-              <button class="seg-btn active" id="ratio169" onclick="setAspect('16:9')">16:9 YouTube</button>
-              <button class="seg-btn" id="ratio916" onclick="setAspect('9:16')">9:16 Shorts</button>
-            </div>
-            <button class="btn btn-outline btn-sm" id="playBtn" onclick="togglePlay()">Pause Preview</button>
-            <button class="btn btn-primary btn-sm" id="simRenderBtn" onclick="runRenderSim()">Simulate 24-Worker Render</button>
-          </div>
-        </div>
-
-        <div class="wb-grid">
-          <!-- Left: Scene List -->
-          <div class="wb-left">
-            <div class="wb-label">Compiled Scenes (4)</div>
-            <button class="scene-item active" onclick="selectScene(0, this)">
-              <span class="s-name mono">01_hook_square.tsx</span>
-              <span class="s-meta">00:00 – 00:12 • DOLLY_PUSH</span>
-            </button>
-            <button class="scene-item" onclick="selectScene(1, this)">
-              <span class="s-name mono">02_ledger_cost.tsx</span>
-              <span class="s-meta">00:12 – 00:26 • ORBIT_15</span>
-            </button>
-            <button class="scene-item" onclick="selectScene(2, this)">
-              <span class="s-name mono">03_town_auction.tsx</span>
-              <span class="s-meta">00:26 – 00:41 • CRANE_UP</span>
-            </button>
-            <button class="scene-item" onclick="selectScene(3, this)">
-              <span class="s-name mono">04_legal_twist.tsx</span>
-              <span class="s-meta">00:41 – 00:54 • WHIP_PAN</span>
-            </button>
-          </div>
-
-          <!-- Center: Real HTML5 2.5D Canvas -->
-          <div class="wb-center">
-            <div class="canvas-shell" id="canvasShell">
-              <canvas id="stageCanvas" width="800" height="450"></canvas>
-              <div class="hud-overlay mono">
-                <span class="hud-chip" id="hudCam">CAM: DOLLY_PUSH_IN</span>
-                <span class="hud-chip" id="hudFrame">FRM 0001 / 0360 • 30FPS</span>
-              </div>
-              <div class="caption-bar" id="captionBar">In 1800s England, a strange loophole changed marriage forever.</div>
-            </div>
-          </div>
-
-          <!-- Right: Inspector & Distributed Workers -->
-          <div class="wb-right">
-            <div>
-              <div class="wb-label">Scene Inspector</div>
-              <div class="prop-row"><span>3D Set</span><span class="mono" id="propSet">victorian_square</span></div>
-              <div class="prop-row"><span>Rig Head</span><span class="mono" id="propRig">egg_v2_inked</span></div>
-              <div class="prop-row"><span>Expression</span><span class="mono" id="propMood">curious_wide</span></div>
-              <div class="prop-row"><span>Audio Sync</span><span class="mono">Whisper + RMS</span></div>
-              <div class="prop-row"><span>Encoder</span><span class="mono">H.264 • CRF 18</span></div>
-            </div>
-            <div>
-              <div class="wb-label" style="display:flex; justify-content:space-between;">
-                <span>Worker Shards (24)</span>
-                <span class="mono" id="renderStat" style="color:var(--ok);">IDLE</span>
-              </div>
-              <div class="worker-grid" id="workerGrid"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bottom Timeline -->
-        <div class="wb-timeline">
-          <span class="mono" style="font-size:0.76rem; color:var(--muted); min-width:78px;" id="timeReadout">00:00.0</span>
-          <div class="timeline-track" id="timelineTrack" title="Click to scrub preview">
-            <div class="playhead" id="playhead"></div>
-          </div>
-          <span class="mono" style="font-size:0.76rem; color:var(--subtle);">1920x1080</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Pipeline Section -->
-    <section id="pipeline">
-      <div class="wrap">
-        <div class="sec-head">
-          <div>
-            <span class="sec-kicker">Architecture</span>
-            <h2>Deterministic rendering from audio track to final MP4.</h2>
-          </div>
-          <p>Instead of unpredictable frame-by-frame video diffusion, ArcRender compiles your script into version-controlled 3D code so every character, prop, and camera move stays consistent across 20-minute episodes.</p>
-        </div>
-
-        <div class="pipe-grid">
-          <div class="pipe-card">
-            <div>
-              <div class="pipe-num mono">01 / AUDIO INGEST</div>
-              <h3>Word &amp; Beat Alignment</h3>
-              <p>Parses voiceover stems using forced alignment and acoustic RMS peaks to lock mouth phonemes, head bobs, and impact camera punches to exact frames.</p>
-            </div>
-            <div class="pipe-tag mono">Output: alignment.json</div>
-          </div>
-          <div class="pipe-card">
-            <div>
-              <div class="pipe-num mono">02 / SCENE COMPILER</div>
-              <h3>3D Diorama + 2D Rig Graph</h3>
-              <p>Maps narrative beats onto modular React Three Fiber sets with cel-shaded lighting, 8 geometric character silhouettes, and comic FX layers.</p>
-            </div>
-            <div class="pipe-tag mono">Output: scene-manifest.ts</div>
-          </div>
-          <div class="pipe-card">
-            <div>
-              <div class="pipe-num mono">03 / SHARDED COMPUTE</div>
-              <h3>Parallel Frame Workers</h3>
-              <p>Splits long timelines into 15-second frame ranges rendered concurrently across stateless Linux headless Chromium nodes with retry recovery.</p>
-            </div>
-            <div class="pipe-tag mono">Runtime: AWS EC2 / Batch</div>
-          </div>
-          <div class="pipe-card">
-            <div>
-              <div class="pipe-num mono">04 / MASTERING</div>
-              <h3>FFmpeg Stitch &amp; Captions</h3>
-              <p>Concatenates verified frame chunks, applies -14 LUFS loudness normalization, burns optional Shorts captions, and uploads the signed MP4.</p>
-            </div>
-            <div class="pipe-tag mono">Output: episode_master.mp4</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Benchmarks & Interactive Estimator -->
-    <section id="benchmarks">
-      <div class="wrap">
-        <div class="sec-head">
-          <div>
-            <span class="sec-kicker">Performance</span>
-            <h2>Built to render 20-minute episodes without tying up your laptop.</h2>
-          </div>
-          <p>Benchmarks measured on a 1920x1080, 30 fps 2.5D Three.js + vector rig project containing 36,000 frames, dynamic shadows, and spatial audio.</p>
-        </div>
-
-        <div class="bench-grid">
-          <div class="table-card">
-            <table>
-              <thead>
-                <tr>
-                  <th>Render Target</th>
-                  <th>Concurrency</th>
-                  <th>20-Min 1080p</th>
-                  <th>Failure Recovery</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>Local Laptop</strong><br /><span style="color:var(--subtle); font-size:0.78rem;">4-Core CPU, 8 GB RAM</span></td>
-                  <td class="mono">1 worker</td>
-                  <td class="mono">~2h 40m</td>
-                  <td>Restart from frame 0</td>
-                </tr>
-                <tr>
-                  <td><strong>Single GPU Node</strong><br /><span style="color:var(--subtle); font-size:0.78rem;">g4dn.xlarge (T4)</span></td>
-                  <td class="mono">4 workers</td>
-                  <td class="mono">~28 min</td>
-                  <td>Manual resume</td>
-                </tr>
-                <tr>
-                  <td><strong>ArcRender Sharded</strong><br /><span style="color:var(--subtle); font-size:0.78rem;">Distributed Linux Fleet</span></td>
-                  <td class="mono">24 workers</td>
-                  <td class="mono hl">~4m 50s</td>
-                  <td class="hl">Per-chunk auto retry</td>
-                </tr>
-                <tr>
-                  <td><strong>ArcRender Studio Cluster</strong><br /><span style="color:var(--subtle); font-size:0.78rem;">High-throughput Queue</span></td>
-                  <td class="mono">48 workers</td>
-                  <td class="mono hl">~2m 35s</td>
-                  <td class="hl">Per-chunk auto retry</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Estimator -->
-          <div class="calc-card">
-            <h3>Episode Render Estimator</h3>
-            <p class="sub">Slide episode duration to estimate worker shards and turnaround time.</p>
-
-            <div class="range-wrap">
-              <div class="range-top">
-                <span>Video Duration</span>
-                <strong class="mono" id="durVal">20 mins</strong>
-              </div>
-              <input type="range" id="durSlider" min="1" max="30" value="20" oninput="updateCalc()" />
-            </div>
-
-            <div class="range-wrap">
-              <div class="range-top">
-                <span>Resolution Preset</span>
-                <div class="seg-group">
-                  <button class="seg-btn active" id="res1080" onclick="setRes('1080p')">1080p</button>
-                  <button class="seg-btn" id="res4k" onclick="setRes('4K')">4K</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="calc-stats">
-              <div class="stat-box">
-                <span class="k">Total Frames (30fps)</span>
-                <span class="v mono" id="estFrames">36,000</span>
-              </div>
-              <div class="stat-box">
-                <span class="k">Parallel Shards</span>
-                <span class="v mono" id="estShards">24</span>
-              </div>
-              <div class="stat-box">
-                <span class="k">Est. Cloud Render</span>
-                <span class="v mono" style="color:var(--ok);" id="estCloud">4m 50s</span>
-              </div>
-              <div class="stat-box">
-                <span class="k">Typical Laptop Time</span>
-                <span class="v mono" style="color:var(--muted);" id="estLocal">160 min</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CLI & API Section -->
-    <section id="cli">
-      <div class="wrap">
-        <div class="sec-head">
-          <div>
-            <span class="sec-kicker">Developer Workflow</span>
-            <h2>Trigger renders from your terminal or existing content pipeline.</h2>
-          </div>
-          <p>Projects live as plain TypeScript and JSON files. Edit a line of dialogue, re-render only the modified 12-second scene, and keep the rest cached.</p>
-        </div>
-
-        <div class="dev-box">
-          <div class="dev-tabs">
-            <div class="dev-tab-list">
-              <button class="dev-tab active" onclick="showCode('cli', this)">CLI Render</button>
-              <button class="dev-tab" onclick="showCode('schema', this)">scene.json</button>
-              <button class="dev-tab" onclick="showCode('webhook', this)">Completion Webhook</button>
-            </div>
-            <button class="btn btn-outline btn-sm" style="background:#262624; color:#e8e6df; border-color:#3a3a36;" id="copyCodeBtn" onclick="copyCurrentCode()">Copy Snippet</button>
-          </div>
-          <pre class="dev-pre mono" id="codeDisplay"></pre>
-        </div>
-      </div>
-    </section>
-
-    <!-- Use Cases -->
-    <section>
-      <div class="wrap">
-        <div class="sec-head">
-          <div>
-            <span class="sec-kicker">Production Fit</span>
-            <h2>Designed for repeatable channels and studio pipelines.</h2>
-          </div>
-          <p>Built around real creator bottlenecks: consistent characters, clean camera pacing, and fast multi-ratio exports.</p>
-        </div>
-
-        <div class="uc-grid">
-          <div class="uc-card">
-            <h3>Long-Form Documentary &amp; History</h3>
-            <p>Produce 15–25 minute narrated episodes with recurring characters, labeled props, and smooth camera transitions without manual After Effects keyframing.</p>
-            <div class="uc-specs mono">
-              <span class="uc-pill">16:9 1080p/4K</span>
-              <span class="uc-pill">20+ min timeline</span>
-              <span class="uc-pill">Chapter caching</span>
-            </div>
-          </div>
-          <div class="uc-card">
-            <h3>Shorts &amp; Reels Reframing</h3>
-            <p>Export a vertical 9:16 cut from the exact same 3D scene graph. Camera focal targets automatically recenter on the speaking character with burned-in word highlights.</p>
-            <div class="uc-specs mono">
-              <span class="uc-pill">9:16 Safe Zones</span>
-              <span class="uc-pill">Word-level captions</span>
-              <span class="uc-pill">60s hooks</span>
-            </div>
-          </div>
-          <div class="uc-card">
-            <h3>Multi-Language Dubbing</h3>
-            <p>Swap English narration for Spanish, Hindi, or German audio stems. ArcRender recalculates lip-sync phonemes and scene hold durations automatically.</p>
-            <div class="uc-specs mono">
-              <span class="uc-pill">Auto re-timing</span>
-              <span class="uc-pill">Phoneme sync</span>
-              <span class="uc-pill">Localized titles</span>
-            </div>
-          </div>
-          <div class="uc-card">
-            <h3>Automated Studio Queues</h3>
-            <p>Connect script repositories directly to our headless render API so editors review compiled proxy previews before triggering high-bitrate final exports.</p>
-            <div class="uc-specs mono">
-              <span class="uc-pill">Signed S3 output</span>
-              <span class="uc-pill">Webhook callbacks</span>
-              <span class="uc-pill">Per-scene diffing</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Changelog -->
-    <section id="changelog">
-      <div class="wrap">
-        <div class="sec-head">
-          <div>
-            <span class="sec-kicker">Engineering Log</span>
-            <h2>Recent engine releases.</h2>
-          </div>
-          <p>We ship weekly updates to our scene compiler, character rig library, and cloud worker orchestrator.</p>
-        </div>
-
-        <div class="log-list">
-          <div class="log-item">
-            <div class="log-date mono">
-              Nov 18, 2026<br />
-              <span class="log-ver">v0.8.4</span>
-            </div>
-            <div class="log-body">
-              <h4>Chunk Checksum Verification &amp; Headless Retry Guard</h4>
-              <p>Added automatic frame-count validation before FFmpeg concat. If a headless Chromium worker stalls on heavy WebGL shaders, only that 15-second segment is reassigned.</p>
-            </div>
-          </div>
-          <div class="log-item">
-            <div class="log-date mono">
-              Nov 04, 2026<br />
-              <span class="log-ver">v0.8.1</span>
-            </div>
-            <div class="log-body">
-              <h4>8-Geometry Character Rig Library &amp; Ink Outlines</h4>
-              <p>Expanded procedural character templates to 8 distinct head geometries with color-swappable outfits, depth-sorted stick limbs, and automated sweat/speedline FX triggers.</p>
-            </div>
-          </div>
-          <div class="log-item">
-            <div class="log-date mono">
-              Oct 19, 2026<br />
-              <span class="log-ver">v0.7.9</span>
-            </div>
-            <div class="log-body">
-              <h4>Dual 16:9 / 9:16 Camera Framing from Single Manifest</h4>
-              <p>Introduced responsive camera projection offsets so creators can export YouTube long-form and vertical Shorts without maintaining duplicate project files.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Pricing -->
-    <section id="pricing">
-      <div class="wrap">
-        <div class="sec-head">
-          <div>
-            <span class="sec-kicker">Beta Pricing</span>
-            <h2>Predictable compute minutes, no per-seat bloat.</h2>
-          </div>
-          <div class="billing-toggle">
-            <div class="seg-group">
-              <button class="seg-btn active" id="billMonthly" onclick="setBilling('monthly')">Monthly</button>
-              <button class="seg-btn" id="billAnnual" onclick="setBilling('annual')">Annual (Save 20%)</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="price-grid">
-          <div class="p-card">
-            <div>
-              <div class="p-name"><h3>Creator</h3></div>
-              <div class="p-amt"><span id="pCreator">$29</span> <span>/ month</span></div>
-              <p class="p-desc">For solo YouTube and Shorts channels shipping weekly.</p>
-              <ul class="p-list">
-                <li>45 mins of 1080p 30fps cloud renders</li>
-                <li>Both 16:9 and 9:16 exports</li>
-                <li>Standard 3D diorama &amp; rig library</li>
-                <li>Automatic word-locked captions</li>
-              </ul>
-            </div>
-            <a href="#early-access" class="btn btn-outline">Request Creator Beta</a>
-          </div>
-
-          <div class="p-card pop">
-            <div>
-              <div class="p-name">
-                <h3>Studio</h3>
-                <span class="p-badge">Most Active</span>
-              </div>
-              <div class="p-amt"><span id="pStudio">$89</span> <span>/ month</span></div>
-              <p class="p-desc">For high-output explainer channels and multi-language teams.</p>
-              <ul class="p-list">
-                <li>180 mins of 1080p / 4K 60fps renders</li>
-                <li>Up to 24 parallel worker shards per job</li>
-                <li>Custom GLB 3D props &amp; character palettes</li>
-                <li>CLI &amp; Webhook pipeline automation</li>
-              </ul>
-            </div>
-            <a href="#early-access" class="btn btn-primary">Request Studio Beta</a>
-          </div>
-
-          <div class="p-card">
-            <div>
-              <div class="p-name"><h3>Dedicated Fleet</h3></div>
-              <div class="p-amt">Custom</div>
-              <p class="p-desc">For agencies and media networks needing isolated AWS capacity.</p>
-              <ul class="p-list">
-                <li>Dedicated VPC worker autoscaling</li>
-                <li>Direct S3 bucket output delivery</li>
-                <li>Custom Three.js shader &amp; rig SDK</li>
-                <li>Direct engineering channel</li>
-              </ul>
-            </div>
-            <a href="mailto:founder@arcrenderai.tech?subject=ArcRender%20Dedicated%20Fleet" class="btn btn-outline">Email Engineering</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section>
-      <div class="wrap">
-        <div class="sec-head">
-          <div>
-            <span class="sec-kicker">Technical FAQ</span>
-            <h2>Common questions from creators and engineers.</h2>
-          </div>
-        </div>
-
-        <div class="faq-list">
-          <div class="faq-item open">
-            <button class="faq-q" onclick="toggleFaq(this)">
-              <span>How is ArcRender different from generative AI video models?</span>
-              <span class="mono">−</span>
-            </button>
-            <div class="faq-a">
-              Diffusion video tools hallucinate faces, flicker between frames, and cap out at 5–10 seconds. ArcRender compiles your narration into deterministic Three.js 3D code and vector character rigs—meaning frame 1 and frame 36,000 share exact lighting, geometry, and typography.
-            </div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-q" onclick="toggleFaq(this)">
-              <span>Can I bring my own voiceovers and ElevenLabs / studio audio?</span>
-              <span class="mono">+</span>
-            </button>
-            <div class="faq-a">
-              Yes. Drop in any WAV or MP3 recording—human voiceover, Edge TTS, or ElevenLabs stems. Our alignment pass extracts word timestamps and acoustic peaks directly from your file.
-            </div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-q" onclick="toggleFaq(this)">
-              <span>Do I own full commercial rights to rendered videos?</span>
-              <span class="mono">+</span>
-            </button>
-            <div class="faq-a">
-              Yes. You retain 100% ownership and monetization rights across YouTube, client deliveries, and social platforms for all videos rendered on ArcRender.
-            </div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-q" onclick="toggleFaq(this)">
-              <span>What infrastructure powers the cloud render workers?</span>
-              <span class="mono">+</span>
-            </button>
-            <div class="faq-a">
-              Render jobs run on containerized Linux headless Chromium and FFmpeg workers deployed on AWS compute nodes, with encrypted S3 artifact storage and automatic cleanup after 7 days.
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer>
-    <div class="wrap">
-      <div class="foot-grid">
-        <div>
-          <a href="#" class="brand" style="margin-bottom:10px;">
-            <span class="brand-mark">AR</span>
-            <span>ArcRender AI</span>
-          </a>
-          <p style="font-size:0.86rem; color:var(--muted); max-width:300px;">
-            Deterministic 2.5D video compilation and distributed cloud rendering for creators and studios. Built in Haridwar, India.
-          </p>
-        </div>
-        <div class="foot-col">
-          <h5>Product</h5>
-          <a href="#studio">Interactive Studio</a>
-          <a href="#pipeline">Render Pipeline</a>
-          <a href="#benchmarks">Benchmarks</a>
-          <a href="#pricing">Beta Pricing</a>
-        </div>
-        <div class="foot-col">
-          <h5>Developers</h5>
-          <a href="#cli">CLI Reference</a>
-          <a href="#changelog">Changelog</a>
-          <a href="https://github.com/surf4code" target="_blank" rel="noopener">GitHub Organization</a>
-          <a href="#" onclick="openModal('status'); return false;">Worker Status (99.9%)</a>
-        </div>
-        <div class="foot-col">
-          <h5>Company &amp; Legal</h5>
-          <a href="mailto:founder@arcrenderai.tech">founder@arcrenderai.tech</a>
-          <a href="#" onclick="openModal('privacy'); return false;">Privacy Policy</a>
-          <a href="#" onclick="openModal('terms'); return false;">Terms of Service</a>
-        </div>
-      </div>
-      <div class="foot-bottom">
-        <span>© 2026 ArcRender AI. All rights reserved.</span>
-        <span class="mono">arcrenderai.tech • v0.8.4</span>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Modal -->
-  <div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
-    <div class="modal-box">
-      <h3 id="modalTitle"></h3>
-      <div id="modalBody"></div>
-      <button class="btn btn-primary btn-sm" style="margin-top:8px;" onclick="closeModal()">Close</button>
-    </div>
-  </div>
-
-  <script>
-    // Scene Data for Interactive 2.5D Canvas
-    const SCENES = [
-      {
-        cam: "DOLLY_PUSH_IN",
-        set: "victorian_square",
-        rig: "egg_v2_inked",
-        mood: "curious_wide",
-        bg: "#f4ede0",
-        floor: "#ded5c3",
-        accent: "#c8461d",
-        shirt: "#2563eb",
-        caption: "In 1800s England, a strange loophole changed marriage forever.",
-        props: "market"
-      },
-      {
-        cam: "ORBIT_15_DEG",
-        set: "parliament_ledger",
-        rig: "round_v1_inked",
-        mood: "sweat_stressed",
-        bg: "#eef1f4",
-        floor: "#d5dce3",
-        accent: "#d97706",
-        shirt: "#dc2626",
-        caption: "Legal divorce required an Act of Parliament—costing a fortune.",
-        props: "coins"
-      },
-      {
-        cam: "CRANE_UP_WIDE",
-        set: "cobble_town_center",
-        rig: "square_v3_inked",
-        mood: "shock_open",
-        bg: "#f2ece6",
-        floor: "#cfc5ba",
-        accent: "#157347",
-        shirt: "#0f766e",
-        caption: "So working-class towns improvised a public market ritual.",
-        props: "crowd"
-      },
-      {
-        cam: "WHIP_PAN_RIGHT",
-        set: "courtroom_desk",
-        rig: "egg_v2_inked",
-        mood: "deadpan_blink",
-        bg: "#f5f3ec",
-        floor: "#dcd7ca",
-        accent: "#141413",
-        shirt: "#7c3aed",
-        caption: "Magistrates rarely intervened—as long as both parties agreed.",
-        props: "gavel"
-      }
-    ];
-
-    let activeScene = 0;
-    let isPlaying = true;
-    let frame = 0;
-    const totalFrames = 360;
-    let resMode = "1080p";
-
-    const canvas = document.getElementById("stageCanvas");
-    const ctx = canvas.getContext("2d");
-
-    // Build timeline waveform bars
-    const track = document.getElementById("timelineTrack");
-    for (let i = 0; i < 64; i++) {
-      const b = document.createElement("div");
-      b.className = "wave-bar";
-      const h = 25 + Math.abs(Math.sin(i * 0.55) * Math.cos(i * 0.23)) * 65;
-      b.style.height = Math.round(h) + "%";
-      track.appendChild(b);
-    }
-
-    track.addEventListener("click", (e) => {
-      const rect = track.getBoundingClientRect();
-      const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      frame = Math.floor(pct * totalFrames);
-      drawStage();
-    });
-
-    // Build 24 worker shard indicators
-    const workerGrid = document.getElementById("workerGrid");
-    for (let i = 0; i < 24; i++) {
-      const cell = document.createElement("div");
-      cell.className = "worker-cell";
-      workerGrid.appendChild(cell);
-    }
-
-    function selectScene(idx, btn) {
-      activeScene = idx;
-      frame = 0;
-      document.querySelectorAll(".scene-item").forEach(el => el.classList.remove("active"));
-      btn.classList.add("active");
-      const s = SCENES[idx];
-      document.getElementById("hudCam").textContent = "CAM: " + s.cam;
-      document.getElementById("propSet").textContent = s.set;
-      document.getElementById("propRig").textContent = s.rig;
-      document.getElementById("propMood").textContent = s.mood;
-      document.getElementById("captionBar").textContent = s.caption;
-      drawStage();
-    }
-
-    function setAspect(mode) {
-      const shell = document.getElementById("canvasShell");
-      document.getElementById("ratio169").classList.toggle("active", mode === "16:9");
-      document.getElementById("ratio916").classList.toggle("active", mode === "9:16");
-      if (mode === "9:16") {
-        shell.classList.add("vertical");
-        canvas.width = 450;
-        canvas.height = 800;
-      } else {
-        shell.classList.remove("vertical");
-        canvas.width = 800;
-        canvas.height = 450;
-      }
-      drawStage();
-    }
-
-    function togglePlay() {
-      isPlaying = !isPlaying;
-      document.getElementById("playBtn").textContent = isPlaying ? "Pause Preview" : "Play Preview";
-    }
-
-    // Draw isometric 3D block helper
-    function drawIsoBox(cx, cy, w, h, d, topCol, leftCol, rightCol) {
-      ctx.lineWidth = 2.5;
-      ctx.strokeStyle = "#141413";
-      // Top face
-      ctx.beginPath();
-      ctx.moveTo(cx, cy - h);
-      ctx.lineTo(cx + w, cy - h + d * 0.5);
-      ctx.lineTo(cx, cy - h + d);
-      ctx.lineTo(cx - w, cy - h + d * 0.5);
-      ctx.closePath();
-      ctx.fillStyle = topCol;
-      ctx.fill();
-      ctx.stroke();
-
-      // Left face
-      ctx.beginPath();
-      ctx.moveTo(cx - w, cy - h + d * 0.5);
-      ctx.lineTo(cx, cy - h + d);
-      ctx.lineTo(cx, cy + d);
-      ctx.lineTo(cx - w, cy + d * 0.5);
-      ctx.closePath();
-      ctx.fillStyle = leftCol;
-      ctx.fill();
-      ctx.stroke();
-
-      // Right face
-      ctx.beginPath();
-      ctx.moveTo(cx + w, cy - h + d * 0.5);
-      ctx.lineTo(cx, cy - h + d);
-      ctx.lineTo(cx, cy + d);
-      ctx.lineTo(cx + w, cy + d * 0.5);
-      ctx.closePath();
-      ctx.fillStyle = rightCol;
-      ctx.fill();
-      ctx.stroke();
-    }
-
-    // Draw 2.5D bold-inked stick/cartoon character rig
-    function drawCharacter(x, y, scale, shirtCol, talkPhase, mood) {
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.scale(scale, scale);
-      ctx.strokeStyle = "#141413";
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
-
-      // Ground shadow
-      ctx.fillStyle = "rgba(20,20,19,0.16)";
-      ctx.beginPath();
-      ctx.ellipse(0, 62, 34, 10, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Stick legs
-      ctx.lineWidth = 5;
-      ctx.beginPath();
-      ctx.moveTo(-10, 26); ctx.lineTo(-14, 58);
-      ctx.moveTo(10, 26); ctx.lineTo(14, 58);
-      ctx.stroke();
-
-      // Torso (vibrant shirt)
-      ctx.fillStyle = shirtCol;
-      ctx.lineWidth = 3.5;
-      ctx.beginPath();
-      ctx.roundRect(-22, -16, 44, 46, 12);
-      ctx.fill();
-      ctx.stroke();
-
-      // Gesturing arms driven by audio beat
-      const armWave = Math.sin(talkPhase * 1.4) * 14;
-      ctx.lineWidth = 5;
-      ctx.beginPath();
-      ctx.moveTo(-22, -4); ctx.lineTo(-42, 12 + armWave * 0.4);
-      ctx.moveTo(22, -4); ctx.lineTo(44, -8 - armWave);
-      ctx.stroke();
-
-      // Cream egg-shaped head
-      const bob = Math.sin(talkPhase) * 2.5;
-      ctx.fillStyle = "#fce7cf";
-      ctx.lineWidth = 3.5;
-      ctx.beginPath();
-      ctx.ellipse(0, -48 + bob, 26, 30, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.stroke();
-
-      // Eyes
-      ctx.fillStyle = "#141413";
-      ctx.beginPath();
-      ctx.arc(-8, -52 + bob, 3.2, 0, Math.PI * 2);
-      ctx.arc(9, -52 + bob, 3.2, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Animated lip-sync mouth
-      const mouthOpen = 3 + Math.abs(Math.sin(talkPhase * 2.6)) * 7;
-      ctx.fillStyle = "#141413";
-      ctx.beginPath();
-      ctx.ellipse(1, -36 + bob, 7, mouthOpen * 0.6, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Mood comic FX (sweat drop on stressed scene)
-      if (mood === "sweat_stressed") {
-        ctx.fillStyle = "#38bdf8";
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(32, -68 + bob);
-        ctx.quadraticCurveTo(38, -56 + bob, 32, -54 + bob);
-        ctx.quadraticCurveTo(26, -56 + bob, 32, -68 + bob);
-        ctx.fill();
-        ctx.stroke();
-      }
-      ctx.restore();
-    }
-
-    function drawStage() {
-      const s = SCENES[activeScene];
-      const W = canvas.width;
-      const H = canvas.height;
-      const progress = frame / totalFrames;
-      const t = frame * 0.12;
-
-      ctx.clearRect(0, 0, W, H);
-      ctx.fillStyle = s.bg;
-      ctx.fillRect(0, 0, W, H);
-
-      // Camera transform per scene
-      ctx.save();
-      let zoom = 1;
-      let panX = 0;
-      if (s.cam === "DOLLY_PUSH_IN") zoom = 1 + progress * 0.14;
-      if (s.cam === "ORBIT_15_DEG") panX = Math.sin(progress * Math.PI * 2) * 24;
-      if (s.cam === "CRANE_UP_WIDE") zoom = 1.12 - progress * 0.12;
-      if (s.cam === "WHIP_PAN_RIGHT") panX = (progress - 0.5) * 44;
-
-      ctx.translate(W / 2 + panX, H / 2);
-      ctx.scale(zoom, zoom);
-      ctx.translate(-W / 2, -H / 2);
-
-      // Isometric diorama floor tile
-      ctx.fillStyle = s.floor;
-      ctx.strokeStyle = "#141413";
-      ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      ctx.moveTo(W * 0.5, H * 0.42);
-      ctx.lineTo(W * 0.92, H * 0.64);
-      ctx.lineTo(W * 0.5, H * 0.88);
-      ctx.lineTo(W * 0.08, H * 0.64);
-      ctx.closePath();
-      ctx.fill();
-      ctx.stroke();
-
-      // Subtle architectural grid lines on floor
-      ctx.strokeStyle = "rgba(20,20,19,0.08)";
-      ctx.lineWidth = 1;
-      for (let g = 1; g < 6; g++) {
-        const f = g / 6;
-        ctx.beginPath();
-        ctx.moveTo(W * (0.5 - 0.42 * f), H * (0.42 + 0.22 * f));
-        ctx.lineTo(W * (0.92 - 0.42 * f), H * (0.64 + 0.24 * f));
-        ctx.stroke();
-      }
-
-      // 3D Toon Diorama Props
-      drawIsoBox(W * 0.26, H * 0.58, 56, 84, 34, "#e7dfd1", "#d4c8b4", "#bfb19a");
-      drawIsoBox(W * 0.75, H * 0.56, 48, 62, 30, "#faeae4", "#e7c3b7", "#d3a191");
-
-      // Floating accent prop (coin / gavel / lantern)
-      const floatY = Math.sin(t * 0.8) * 6;
-      drawIsoBox(W * 0.72, H * 0.41 + floatY, 18, 16, 12, "#facc15", "#eab308", "#ca8a04");
-
-      // Center Character Rig
-      const charScale = W < 500 ? 1.15 : 1.05;
-      drawCharacter(W * 0.48, H * 0.58, charScale, s.shirt, t, s.mood);
-
-      ctx.restore();
-
-      // Update HUD
-      const fStr = String(frame + 1).padStart(4, "0");
-      document.getElementById("hudFrame").textContent = `FRM ${fStr} / ${totalFrames} • 30FPS`;
-      document.getElementById("playhead").style.left = (progress * 100) + "%";
-      document.getElementById("timeReadout").textContent = `00:${(frame / 30).toFixed(1).padStart(4, "0")}`;
-    }
-
-    function loop() {
-      if (isPlaying) {
-        frame = (frame + 1) % totalFrames;
-        drawStage();
-      }
-      requestAnimationFrame(loop);
-    }
-
-    // Simulated 24-Worker Render Animation
-    let simTimer = null;
-    function runRenderSim() {
-      if (simTimer) clearInterval(simTimer);
-      const cells = Array.from(document.querySelectorAll(".worker-cell"));
-      const stat = document.getElementById("renderStat");
-      cells.forEach(c => { c.className = "worker-cell busy"; });
-      stat.style.color = "var(--accent)";
-      stat.textContent = "RENDERING 0/24";
-
-      let done = 0;
-      const order = cells.map((_, i) => i).sort(() => Math.random() - 0.5);
-      simTimer = setInterval(() => {
-        if (done >= order.length) {
-          clearInterval(simTimer);
-          stat.style.color = "var(--ok)";
-          stat.textContent = "DONE • 4.2s";
-          return;
-        }
-        cells[order[done]].className = "worker-cell done";
-        done++;
-        stat.textContent = `RENDERING ${done}/24`;
-      }, 95);
-    }
-
-    // Render Time Estimator
-    function setRes(r) {
-      resMode = r;
-      document.getElementById("res1080").classList.toggle("active", r === "1080p");
-      document.getElementById("res4k").classList.toggle("active", r === "4K");
-      updateCalc();
-    }
-
-    function updateCalc() {
-      const mins = parseInt(document.getElementById("durSlider").value, 10);
-      document.getElementById("durVal").textContent = mins + (mins === 1 ? " min" : " mins");
-      const frames = mins * 60 * 30;
-      const mult = resMode === "4K" ? 2.2 : 1;
-      const shards = Math.min(48, Math.max(4, Math.ceil((mins * 1.2) / 2) * 2));
-      const cloudSecs = Math.round(((mins * 14.5) * mult) * (24 / Math.max(12, shards)));
-      const localMins = Math.round(mins * 8 * mult);
-
-      const cm = Math.floor(cloudSecs / 60);
-      const cs = cloudSecs % 60;
-
-      document.getElementById("estFrames").textContent = frames.toLocaleString();
-      document.getElementById("estShards").textContent = shards;
-      document.getElementById("estCloud").textContent = cm > 0 ? `${cm}m ${cs}s` : `${cs}s`;
-      document.getElementById("estLocal").textContent = localMins >= 60
-        ? `${(localMins / 60).toFixed(1)} hrs`
-        : `${localMins} min`;
-    }
-
-    // CLI / Code Tabs
-    const SNIPPETS = {
-      cli: `# 1. Align narration track and generate deterministic scene manifest
-$ arcrender align ./audio/ep04_narration.wav --out ./build/alignment.json
-  -> Extracted 3,142 word timestamps & 84 energy peaks in 1.8s
-
-# 2. Dispatch sharded 1080p render across 24 Linux workers
-$ arcrender render ./episodes/ep04 --workers 24 --ratio 16:9 --crf 18
-  -> Job ID: job_01jcx8m92k4v
-  -> Shards: 24/24 completed (36,000 frames verified)
-  -> Audio mastered at -14 LUFS
-  -> Output: s3://arcrender-out-ap-south-1/ep04_master.mp4 (4m 46s)`,
-      schema: `{
-  "sceneId": "01_hook_square",
-  "startSec": 0.0,
-  "endSec": 12.4,
-  "diorama": "victorian_market_square",
-  "lighting": "warm_overcast_toon",
-  "camera": {
-    "motion": "DOLLY_PUSH_IN",
-    "fov": 38,
-    "reframe9x16": { "focusActor": "narrator", "offsetY": 0.12 }
-  },
-  "actors": [
-    { "id": "narrator", "rig": "egg_v2_inked", "outfit": "#2563eb", "mood": "curious_wide" }
-  ]
-}`,
-      webhook: `POST https://studio-pipeline.internal/hooks/arcrender
-Content-Type: application/json
-X-ArcRender-Signature: sha256=8a9c4e1b...d04f
-
-{
-  "event": "render.completed",
-  "jobId": "job_01jcx8m92k4v",
-  "durationSec": 1214.2,
-  "workersUsed": 24,
-  "wallClockSec": 286,
-  "artifactUrl": "https://cdn.arcrenderai.tech/exports/ep04_master.mp4"
-}`
-    };
-
-    let currentTab = "cli";
-    function showCode(key, btn) {
-      currentTab = key;
-      document.querySelectorAll(".dev-tab").forEach(t => t.classList.remove("active"));
-      btn.classList.add("active");
-      document.getElementById("codeDisplay").textContent = SNIPPETS[key];
-    }
-
-    function copyCurrentCode() {
-      navigator.clipboard.writeText(SNIPPETS[currentTab]);
-      const btn = document.getElementById("copyCodeBtn");
-      btn.textContent = "Copied";
-      setTimeout(() => btn.textContent = "Copy Snippet", 1400);
-    }
-
-    // Pricing Toggle
-    function setBilling(mode) {
-      document.getElementById("billMonthly").classList.toggle("active", mode === "monthly");
-      document.getElementById("billAnnual").classList.toggle("active", mode === "annual");
-      document.getElementById("pCreator").textContent = mode === "annual" ? "$23" : "$29";
-      document.getElementById("pStudio").textContent = mode === "annual" ? "$71" : "$89";
-    }
-
-    // FAQ Accordion
-    function toggleFaq(btn) {
-      const item = btn.parentElement;
-      const open = item.classList.toggle("open");
-      btn.querySelector(".mono").textContent = open ? "−" : "+";
-    }
-
-    // Waitlist Form
-    document.getElementById("waitlistForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      document.getElementById("waitlistMsg").style.display = "block";
-      document.getElementById("waitlistEmail").value = "";
-    });
-
-    // Legal & Status Modals
-    const MODALS = {
-      privacy: {
-        title: "Privacy Policy — ArcRender AI",
-        html: "<p>ArcRender AI collects only email addresses voluntarily submitted for early-access onboarding and technical support correspondence.</p><p>Uploaded audio stems, scripts, and compiled MP4 exports are encrypted in transit and deleted automatically from worker storage within 7 days of completion. We never train third-party models on customer scripts or audio.</p><p>For deletion requests, email <strong>founder@arcrenderai.tech</strong>.</p>"
-      },
-      terms: {
-        title: "Terms of Service — ArcRender AI",
-        html: "<p>ArcRender AI is provided under Early Access terms. Creators and studios retain 100% copyright and commercial monetization rights over all scripts, voiceovers, and rendered video files generated through the engine.</p><p>Compute quotas are metered by rendered output minutes. Misuse of distributed worker infrastructure for non-rendering workloads is prohibited.</p>"
-      },
-      status: {
-        title: "Worker Infrastructure Status",
-        html: "<p><strong style='color:#157347;'>All systems operational.</strong></p><p class='mono' style='font-size:0.82rem; background:#f0eee7; padding:12px; border-radius:6px;'>Alignment Pipeline: Operational (140ms avg)<br>Linux Chromium Fleet (ap-south-1): Operational<br>FFmpeg Mux &amp; Delivery: Operational</p>"
-      }
-    };
-
-    function openModal(key) {
-      document.getElementById("modalTitle").textContent = MODALS[key].title;
-      document.getElementById("modalBody").innerHTML = MODALS[key].html;
-      document.getElementById("modalBg").style.display = "grid";
-    }
-
-    function closeModal() {
-      document.getElementById("modalBg").style.display = "none";
-    }
-
-    // Init
-    document.getElementById("codeDisplay").textContent = SNIPPETS.cli;
-    updateCalc();
-    drawStage();
-    requestAnimationFrame(loop);
-  </script>
-</body>
-</html>
+    .stat-box .k { display: block
